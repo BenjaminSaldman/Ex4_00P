@@ -53,8 +53,7 @@ public class JsonFiler {
             JsonObject jsonObject = (JsonObject) obj;
             JsonArray edges = (JsonArray) jsonObject.get("Edges");
             JsonArray nodes = (JsonArray) jsonObject.get("Nodes");
-            Iterator<JsonElement>
-            e = nodes.iterator();
+            Iterator<JsonElement> e = nodes.iterator();
             while (e.hasNext()) {
                 JsonElement node = e.next();
                 String pos = node.getAsJsonObject().get("pos").getAsString();

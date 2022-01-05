@@ -48,7 +48,7 @@ public interface DirectedWeightedGraphAlgorithms {
      * @param dest - end (target) node
      * @return
      */
-    public double shortestPathDist(int src, int dest);
+    public double shortestPathDist(int src, int dest,double speed);
     /**
      * Computes the the shortest path between src to dest - as an ordered List of nodes:
      * src--> n1-->n2-->...dest
@@ -58,7 +58,7 @@ public interface DirectedWeightedGraphAlgorithms {
      * @param dest - end (target) node
      * @return
      */
-    public List<NodeData> shortestPath(int src, int dest);
+    public List<NodeData> shortestPath(int src, int dest,double speed);
 
     /**
      * Finds the NodeData which minimizes the max distance to all the other nodes.
@@ -90,4 +90,7 @@ public interface DirectedWeightedGraphAlgorithms {
      * @return true - iff the graph was successfully loaded.
      */
     public boolean load(String file);
+    public boolean calc_edge(int p1,int p2,double x2,double y2);
+    public EdgeData getEd(Pokemon pokemon);
+
 }

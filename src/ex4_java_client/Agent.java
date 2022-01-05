@@ -1,5 +1,8 @@
 package ex4_java_client;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Agent {
     private int id;
     private double value;
@@ -7,6 +10,8 @@ public class Agent {
     private int dest;
     private double speed;
     private GeoLocation location;
+    List<Integer>path;
+    boolean isAllocated;
 
     public Agent(int id, double value, int src, int dest, double speed, GeoLocation location) {
         this.id = id;
@@ -15,6 +20,7 @@ public class Agent {
         this.dest = dest;
         this.speed = speed;
         this.location = location;
+        path=new LinkedList<>();
         //Update the new agent list to the current list.
     }
 
@@ -25,12 +31,13 @@ public class Agent {
         this.dest=agent.getDest();
         this.speed=agent.getSpeed();
         this.location= agent.getLocation();
+        this.path=agent.path;
     }
 
     public int getId() {
         return id;
     }
-
+    public int getLast(){return path.isEmpty()? src:path.get(path.size()-1);}
     public double getValue() {
         return value;
     }

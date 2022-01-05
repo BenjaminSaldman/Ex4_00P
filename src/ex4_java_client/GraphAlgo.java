@@ -10,7 +10,7 @@ import java.util.*;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
     private DirectedWeightedGraph g;
-    public static final double EPS=0.001;
+    public static final double EPS=0.00000000001;
     /**
      * @param src run Dijkstra algorithm on the graph.
      */
@@ -281,10 +281,18 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
     public boolean calc_edge(int p1, int p2, double x2, double y2) {
         double x1=this.g.getNode(p1).getLocation().x(),y1=this.g.getNode(p1).getLocation().y();
         double x3=this.g.getNode(p2).getLocation().x(),y3=this.g.getNode(p2).getLocation().y();
+        double maxX=Math.max(x1,x3),minX=Math.min(x1,x3);
+        double maxY=Math.max(y1,y3),minY=Math.min(y1,y3);
+        if(x2>maxX || x2<minX || y2>maxY || y2<minY) {
+            return false;
+        }
         double dist1=Math.sqrt((Math.pow((x2-x1),2)+Math.pow((y2-y1),2)));
         double dist2=Math.sqrt((Math.pow((x2-x3),2)+Math.pow((y2-y3),2)));
-        if((dist1+dist2)-(this.g.getNode(p1).getLocation().distance(this.g.getNode(p2).getLocation()))<EPS)
+        if(Math.abs((dist1+dist2)-(this.g.getNode(p1).getLocation().distance(this.g.getNode(p2).getLocation())))<EPS) {
             return true;
+
+        }
+        System.out.println("SUCCESS: "+p1+" "+p2);
         return false;
     }
 
@@ -301,8 +309,10 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             while(ed.hasNext())
             {
                 EdgeData edge=ed.next();
-                if(calc_edge(edge.getSrc(), edge.getDest(),x,y));
+                boolean check=calc_edge(edge.getSrc(), edge.getDest(),x,y);
+                if(check==true)
                 {
+                    System.out.println("MN");
                     int max=Math.max(edge.getSrc() ,edge.getDest());
                     int min=Math.min(edge.getSrc() ,edge.getDest());
                     if(type>=0)

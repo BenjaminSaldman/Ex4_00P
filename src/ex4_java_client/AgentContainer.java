@@ -47,4 +47,13 @@ public class AgentContainer {
             }
         }
     }
+    public boolean isRun()
+    {
+        for(int i=0;i<container.size();i++)
+        {
+            if(!container.get(i).path.isEmpty())
+                return true;
+        }
+        return false;
+    }
 }

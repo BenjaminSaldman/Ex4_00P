@@ -19,7 +19,13 @@ public class PokemonContainer {
         //this.p.removeAll(this.p);
         //this.p=new ArrayList<Pokemon>();
         ArrayList<Pokemon>temp=new ArrayList<>();
-        JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+        JsonObject obj;
+        try {
+            obj= JsonParser.parseString(json).getAsJsonObject();
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
         JsonArray agents = (JsonArray) obj.get("Pokemons");
         Iterator<JsonElement> e = agents.iterator();
         while (e.hasNext())

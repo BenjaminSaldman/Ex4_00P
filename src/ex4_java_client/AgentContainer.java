@@ -36,6 +36,7 @@ public class AgentContainer {
                 if(container.get(i).getId()==a.getId()) {
                     a.path=container.get(i).path;
                     a.isAllocated=container.get(i).isAllocated;
+                    a.target=container.get(i).target;
                     container.remove(i);
                     container.add(i, a);
                     added=false;

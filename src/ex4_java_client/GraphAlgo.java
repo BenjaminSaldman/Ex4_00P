@@ -292,7 +292,7 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             return true;
 
         }
-        System.out.println("SUCCESS: "+p1+" "+p2);
+
         return false;
     }
 
@@ -312,7 +312,6 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
                 boolean check=calc_edge(edge.getSrc(), edge.getDest(),x,y);
                 if(check==true)
                 {
-                    System.out.println("MN");
                     int max=Math.max(edge.getSrc() ,edge.getDest());
                     int min=Math.min(edge.getSrc() ,edge.getDest());
                     if(type>=0)

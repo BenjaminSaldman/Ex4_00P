@@ -12,7 +12,7 @@ public class Agent {
     private GeoLocation location;
     List<Integer>path;
     boolean isAllocated;
-
+    GeoLocation target;
     public Agent(int id, double value, int src, int dest, double speed, GeoLocation location) {
         this.id = id;
         this.value = value;
@@ -21,6 +21,7 @@ public class Agent {
         this.speed = speed;
         this.location = location;
         path=new LinkedList<>();
+        target=new Location(location);
         //Update the new agent list to the current list.
     }
 

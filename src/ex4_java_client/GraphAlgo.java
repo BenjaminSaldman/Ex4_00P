@@ -191,18 +191,28 @@ public class GraphAlgo implements DirectedWeightedGraphAlgorithms {
             ans.add(this.g.getNode(src));
             return ans;
         }
+
         if (this.g.getNode(dest).getWeight() == -1)
             return null;
         /**
          * The algorithm sets in every node tag the ID of his parent in the path.
          */
         NodeData reversed = this.g.getNode(dest);
-        while (reversed != this.g.getNode(src)) {
+        while (reversed.getKey() != this.g.getNode(src).getKey() && !contain(ans,reversed.getKey())) {
             ans.add(0, reversed);
             reversed = this.g.getNode(reversed.getTag());
         }
         //ans.add(0, this.g.getNode(src));
         return ans;
+    }
+    private boolean contain(List<NodeData>l,int key)
+    {
+        for(NodeData n:l)
+        {
+            if(n.getKey()==key)
+                return true;
+        }
+        return false;
     }
 
     /**

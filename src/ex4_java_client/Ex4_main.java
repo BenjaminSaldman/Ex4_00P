@@ -98,7 +98,7 @@ public class Ex4_main {
                         moves++;
                         while (dist>EPS)
                         {
-                            Thread.sleep((long) (10000*dist)); //100000*dist
+                            Thread.sleep((long) (100000*dist)); //100000*dist
                             agents.update(client.getAgents());
                             agent=agents.container.get(i);
                             dist=agent.getLocation().distance(agent.target);
@@ -107,6 +107,11 @@ public class Ex4_main {
                         }
                         client.move();
                         agents.container.get(i).isAllocated=false;
+//                        if(moves>=9)
+//                        {
+//                            Thread.sleep(1000);
+//                            moves=0;
+//                        }
                     }
                     else
                         allocations++;
@@ -144,14 +149,17 @@ public class Ex4_main {
                     Agent agent=agents.container.get(0);
                     if(agent.isAllocated)
                         break;
-
+                    System.out.println(gr.shortestPathDist(agent.getSrc(), edge.getSrc(), agent.getSpeed()));
+                    System.out.println(agent.getSrc());
+                    System.out.println(edge.getSrc());
+                    System.out.println(agent.getSpeed());
                     List<NodeData>l=gr.shortestPath(agent.getSrc(), edge.getSrc(), agent.getSpeed());
                     for(NodeData n:l)
                         agents.container.get(0).path.add(n.getKey());
                     agents.container.get(0).path.add(edge.getDest());
                     agents.container.get(0).isAllocated=true;
                     agents.container.get(0).target= po.getLocation();
-                    System.out.println( agents.container.get(0).getDest());
+
                     break;
                 }
                 double min=Double.MAX_VALUE;

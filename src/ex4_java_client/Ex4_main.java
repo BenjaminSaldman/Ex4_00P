@@ -45,7 +45,6 @@ public class Ex4_main {
             po.allocated=true;
             EdgeData edge = gr.getEd(po);
             client.addAgent("{\"id\":" + edge.getSrc() + "}");
-            --size;
         }
         while(size>0)
         {

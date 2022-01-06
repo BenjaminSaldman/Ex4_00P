@@ -52,7 +52,7 @@ public class AgentContainer {
     {
         for(int i=0;i<container.size();i++)
         {
-            if(!container.get(i).path.isEmpty())
+            if(!container.get(i).path.isEmpty() ||container.get(i).getDest()!=-1)
                 return true;
         }
         return false;

@@ -60,6 +60,7 @@ public class PokemonContainer {
                 index=i;
             }
         }
+        this.p.get(index).allocated=true;
         return this.p.get(index);
     }
     public boolean isEmpty()

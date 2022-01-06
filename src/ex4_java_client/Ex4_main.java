@@ -38,12 +38,9 @@ public class Ex4_main {
         JsonObject info = JsonParser.parseString(client.getInfo()).getAsJsonObject();
         int size = info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
         int save=size;
-        //long time=Long.parseLong(client.timeToEnd());
         pokemons.update(poke);
-        ArrayList<Pokemon> p = pokemons.p;
-        ArrayList<Agent> a = agents.container;
-        while (!pokemons.isEmpty() && size>0) {
-
+        for(int i=0;i<pokemons.p.size() && size>0;i++,size--)
+        {
             Pokemon po = pokemons.getMax();
             po.allocated=true;
             EdgeData edge = gr.getEd(po);
@@ -57,26 +54,25 @@ public class Ex4_main {
         }
         pokemons.setAllocFalse();
         agents.update(client.getAgents());
-
-        for(int i=0;i<p.size()&&save>0;i++)
+        for(int i=0;i<pokemons.p.size()&&save>0;i++)
         {
             Pokemon po = pokemons.getMax();
             EdgeData edge = gr.getEd(po);
             for(int j=0;j<agents.container.size();j++)
             {
-
                 if(agents.container.get(j).getSrc()==edge.getSrc())
                 {
                     agents.container.get(j).path.add(edge.getDest());
                     agents.container.get(j).target= po.getLocation();
+                    pokemons.p.get(i).allocated=true;
                     save--;
                 }
             }
         }
-        client.start();
+
         int moves=0;
-        int allocations=0;
-        size=info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
+        int onlyOne=info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
+        client.start();
         while (client.isRunning().equals("true")) {
             //First we draw some graphics before handling the allocation.
 
@@ -87,63 +83,48 @@ public class Ex4_main {
                     Agent agent=agents.container.get(i);
                     if(agent.path.isEmpty() || agent.getDest()!=-1)
                         continue;
-                    System.out.println("...");
                     int next=agent.path.get(0);
                     agents.container.get(i).path.remove(0);
                     client.chooseNextEdge("{\"agent_id\":"+agent.getId()+", \"next_node_id\": " + next + "}");
                     if(agent.path.isEmpty()) {
+
+                        client.move();
+                        agents.update(client.getAgents());
+                        agent=agents.container.get(i);
+                        moves++;
                         double dist=agent.getLocation().distance(agent.target);
                         System.out.println(dist);
-                        client.move();
-                        moves++;
-                        while (dist>EPS)
+                        while (dist>EPS && agent.getDest()!=-1)
                         {
-                            Thread.sleep((long) (100000*dist)); //100000*dist
+                            Thread.sleep((long) (100000*dist/2)); //100000*dist
                             agents.update(client.getAgents());
                             agent=agents.container.get(i);
                             dist=agent.getLocation().distance(agent.target);
                             client.move();
                             moves++;
                         }
-                        client.move();
                         agents.container.get(i).isAllocated=false;
-//                        if(moves>=9)
-//                        {
-//                            Thread.sleep(1000);
-//                            moves=0;
-//                        }
                     }
-                    else
-                        allocations++;
 
-                    if(moves>=9)
-                    {
-                        Thread.sleep(1000);
-                        moves=0;
-                    }
                 }
                 if(moves>=9)
                 {
                     Thread.sleep(1000);
                     moves=0;
                 }
-
                 client.move();
                 moves++;
                 agents.update(client.getAgents());
 
             }
-            long TTL=Long.parseLong(client.timeToEnd());
-            if(TTL<500)
-                break;
             agents.update(client.getAgents());
             pokemons.update(client.getPokemons());
             size=info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
-            for(int i=0;i<pokemons.p.size()&&size>0;i++)
+            for(int i=0;i<pokemons.p.size()&&size>0;i++,size--)
             {
                 Pokemon po = pokemons.getMax();
                 EdgeData edge = gr.getEd(po);
-                if(size==1)
+                if(onlyOne==1)
                 {
 
                     Agent agent=agents.container.get(0);
@@ -152,6 +133,7 @@ public class Ex4_main {
                     System.out.println(gr.shortestPathDist(agent.getSrc(), edge.getSrc(), agent.getSpeed()));
                     System.out.println(agent.getSrc());
                     System.out.println(edge.getSrc());
+                    System.out.println(edge.getDest());
                     System.out.println(agent.getSpeed());
                     List<NodeData>l=gr.shortestPath(agent.getSrc(), edge.getSrc(), agent.getSpeed());
                     for(NodeData n:l)
@@ -159,11 +141,11 @@ public class Ex4_main {
                     agents.container.get(0).path.add(edge.getDest());
                     agents.container.get(0).isAllocated=true;
                     agents.container.get(0).target= po.getLocation();
-
                     break;
                 }
                 double min=Double.MAX_VALUE;
                 Agent curr=null;
+                int index=0;
                 for(int j=0;j<agents.container.size();j++)
                 {
                     Agent agent=agents.container.get(j);
@@ -173,13 +155,20 @@ public class Ex4_main {
                     {
                         min=gr.shortestPathDist(agent.getSrc(), edge.getSrc(), agent.getSpeed());
                         curr=agent;
+                        index=j;
                     }
+                    if(curr == null)
+                        break;
                     List<NodeData>l=gr.shortestPath(agent.getSrc(), edge.getSrc(), agent.getSpeed());
                     for(NodeData n:l)
                         curr.path.add(n.getKey());
                     curr.path.add(edge.getDest());
                     curr.isAllocated=true;
-                    po.allocated=true;
+                    curr.target= po.getLocation();
+                    agents.container.get(index).path=curr.path;
+                    agents.container.get(index).isAllocated= curr.isAllocated;
+                    agents.container.get(index).target=curr.target;
+
                 }
             }
 

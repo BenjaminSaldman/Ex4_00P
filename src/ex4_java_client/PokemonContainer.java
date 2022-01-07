@@ -54,7 +54,7 @@ public class PokemonContainer {
         int index=0;
         for(int i=0;i<p.size();i++)
         {
-            if(!(p.get(i).allocated)&&p.get(i).getValue()<max)
+            if(!(p.get(i).allocated)&&p.get(i).getValue()>max)
             {
                 max=p.get(i).getValue();
                 index=i;

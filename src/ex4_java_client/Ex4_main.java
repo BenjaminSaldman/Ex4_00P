@@ -71,7 +71,12 @@ public class Ex4_main {
 
         int moves=0;
         int onlyOne=info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
+//        painter pa=new painter(client);
+//        Thread p=new Thread(pa);
+        paint p=new paint(client);
         client.start();
+        //p.start();
+        //p.join();
         while (client.isRunning().equals("true")) {
             //First we draw some graphics before handling the allocation.
 
@@ -101,8 +106,10 @@ public class Ex4_main {
                             dist=agent.getLocation().distance(agent.target);
                             client.move();
                             moves++;
+                            p.update();
                         }
                         agents.container.get(i).isAllocated=false;
+                        p.update();
                     }
 
                 }
@@ -114,6 +121,7 @@ public class Ex4_main {
                 client.move();
                 moves++;
                 agents.update(client.getAgents());
+                p.update();
 
             }
             agents.update(client.getAgents());

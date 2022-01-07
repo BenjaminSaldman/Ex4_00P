@@ -12,10 +12,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Main program, creates the connections to the socket, run the algorithm and the GUI.
+ */
 public class Ex4_main {
     public static void main(String[] args) throws InterruptedException {
         Client client = new Client();
-        final double EPS=0.001;
+        final double EPS=0.001; //Epsilon for distance.
         try {
             client.startConnection("127.0.0.1", 6666);
         } catch (IOException e) {
@@ -30,8 +33,7 @@ public class Ex4_main {
             e.printStackTrace();
         }
         DirectedWeightedGraphAlgorithms gr = new GraphAlgo();
-        gr.load(file);
-        String age = client.getAgents();
+        gr.load(file); //Creating the graph.
         String poke = client.getPokemons();
         AgentContainer agents = new AgentContainer();
         PokemonContainer pokemons = new PokemonContainer();
@@ -39,6 +41,9 @@ public class Ex4_main {
         int size = info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
         int save=size;
         pokemons.update(poke);
+        /**
+         * Allocating agents to the server near the most valued pokemons.
+         */
         for(int i=0;i<pokemons.p.size() && size>0;i++,size--)
         {
             Pokemon po = pokemons.getMax();
@@ -46,6 +51,9 @@ public class Ex4_main {
             EdgeData edge = gr.getEd(po);
             client.addAgent("{\"id\":" + edge.getSrc() + "}");
         }
+        /**
+         * Default allocation.
+         */
         while(size>0)
         {
             client.addAgent("{\"id\":0}");
@@ -53,6 +61,9 @@ public class Ex4_main {
         }
         pokemons.setAllocFalse();
         agents.update(client.getAgents());
+        /**
+         * Update the agent container
+         */
         for(int i=0;i<pokemons.p.size()&&save>0;i++)
         {
             Pokemon po = pokemons.getMax();
@@ -69,22 +80,20 @@ public class Ex4_main {
             }
         }
 
-        int moves=0;
-        int onlyOne=info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
-//        painter pa=new painter(client);
-//        Thread p=new Thread(pa);
-        paint p=new paint(client);
+        int moves=0; // Allowed moves.
+        int onlyOne=info.get("GameServer").getAsJsonObject().get("agents").getAsInt(); // 1 agent case.
+        paint p=new paint(client); //GUI.
         client.start();
-        //p.start();
-        //p.join();
         while (client.isRunning().equals("true")) {
-            //First we draw some graphics before handling the allocation.
-
+            /**
+             * While the locations are not Empty.
+             */
             while (agents.isRun())
             {
                 for(int i=0;i<agents.container.size();i++)
                 {
                     Agent agent=agents.container.get(i);
+                    //If the agent's destination is -1, or he is not allocated continue.
                     if(agent.path.isEmpty() || agent.getDest()!=-1)
                         continue;
                     int next=agent.path.get(0);
@@ -97,16 +106,20 @@ public class Ex4_main {
                         agent=agents.container.get(i);
                         moves++;
                         double dist=agent.getLocation().distance(agent.target);
-                        System.out.println(dist);
                         while (dist>EPS && agent.getDest()!=-1)
                         {
-                            Thread.sleep((long) (100000*dist/2)); //100000*dist
+                            Thread.sleep((long) (100000*dist/2)); //100000*dist/2
                             agents.update(client.getAgents());
                             agent=agents.container.get(i);
                             dist=agent.getLocation().distance(agent.target);
                             client.move();
                             moves++;
                             p.update();
+//                            if(moves>=9)
+//                            {
+//                                Thread.sleep(1000);
+//                                moves=0;
+//                            }
                         }
                         agents.container.get(i).isAllocated=false;
                         p.update();
@@ -137,11 +150,6 @@ public class Ex4_main {
                     Agent agent=agents.container.get(0);
                     if(agent.isAllocated)
                         break;
-                    System.out.println(gr.shortestPathDist(agent.getSrc(), edge.getSrc(), agent.getSpeed()));
-                    System.out.println(agent.getSrc());
-                    System.out.println(edge.getSrc());
-                    System.out.println(edge.getDest());
-                    System.out.println(agent.getSpeed());
                     List<NodeData>l=gr.shortestPath(agent.getSrc(), edge.getSrc(), agent.getSpeed());
                     for(NodeData n:l)
                         agents.container.get(0).path.add(n.getKey());

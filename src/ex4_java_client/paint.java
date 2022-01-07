@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 public class paint extends JFrame implements ActionListener {
-    DirectedWeightedGraph graph; //The given graph from json file.
-    DirectedWeightedGraphAlgorithms AlgoGraph; //Given algorithm graph.
     double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth(); //Dimension of screen.
     double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     PokemonContainer pokemons;

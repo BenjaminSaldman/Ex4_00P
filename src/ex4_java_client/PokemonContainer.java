@@ -16,8 +16,6 @@ public class PokemonContainer {
     }
     public void update(String json)
     {
-        //this.p.removeAll(this.p);
-        //this.p=new ArrayList<Pokemon>();
         ArrayList<Pokemon>temp=new ArrayList<>();
         JsonObject obj;
         try {
@@ -78,5 +76,9 @@ public class PokemonContainer {
         {
             p.get(i).allocated=false;
         }
+    }
+    public int size()
+    {
+        return p.size();
     }
 }

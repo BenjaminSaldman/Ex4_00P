@@ -9,11 +9,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class PokemonContainer {
+    /**
+     * This class represent a container of pokemons.
+     * ArrayList<Pokemon> p: ArrayList of pokemons.
+     */
      ArrayList<Pokemon>p;
     public PokemonContainer()
     {
         this.p=new ArrayList<Pokemon>();
     }
+
+    /**
+     *
+     * @param json
+     * sets the container with the pokemons the server returns.
+     */
     public void update(String json)
     {
         ArrayList<Pokemon>temp=new ArrayList<>();
@@ -46,6 +56,11 @@ public class PokemonContainer {
         for(int i=0;i<temp.size();i++)
             p.add(temp.get(i));
     }
+
+    /**
+     *
+     * @return maximum valued available pokemon.
+     */
     public Pokemon getMax()
     {
         double max=0;
@@ -61,6 +76,11 @@ public class PokemonContainer {
         this.p.get(index).allocated=true;
         return this.p.get(index);
     }
+
+    /**
+     *
+     * @return false if there is an unallocated pokemon, else true.
+     */
     public boolean isEmpty()
     {
         for(int i=0;i<p.size();i++)
@@ -70,6 +90,10 @@ public class PokemonContainer {
         }
         return true;
     }
+
+    /**
+     * set the allocated field to false.
+     */
     public void setAllocFalse()
     {
         for(int i=0;i<p.size();i++)
@@ -77,6 +101,11 @@ public class PokemonContainer {
             p.get(i).allocated=false;
         }
     }
+
+    /**
+     *
+     * @return the size of the container.
+     */
     public int size()
     {
         return p.size();

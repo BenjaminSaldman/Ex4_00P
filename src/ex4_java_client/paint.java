@@ -73,6 +73,7 @@ public class paint extends JFrame implements ActionListener {
          * Listener to the stop button.
          */
         if (e.getSource() == stop) {
+            this.update();
             client.stop();
         }
 

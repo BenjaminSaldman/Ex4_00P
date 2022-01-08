@@ -5,15 +5,15 @@ import java.util.List;
 
 /**
  * This class represent an agent.
- * id: agent's id.
- * value: agent's score.
- * src: agent's source node.
- * dest: agent's destination node.
- * speed: agent's speed.
- * location: agent's current location.
- * path: agent's node path.
- * isAllocated: true if the agent is allocated to some pokemon, else false.
- * target: pokemon's location.
+ * int id: agent's id.
+ * double value: agent's score.
+ * int src: agent's source node.
+ * int dest: agent's destination node.
+ * double speed: agent's speed.
+ * GeoLocation location: agent's current location.
+ * List<Integer> path: agent's node path.
+ * boolean isAllocated: true if the agent is allocated to some pokemon, else false.
+ * GeoLocation target: pokemon's location.
  */
 public class Agent {
     private int id;

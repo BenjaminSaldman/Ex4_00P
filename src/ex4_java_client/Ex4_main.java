@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Main program, creates the connections to the socket, run the algorithm and the GUI.
+ * Main program, creates the connections to the server, run the algorithm and the GUI.
  */
 public class Ex4_main {
     public static void main(String[] args) throws InterruptedException {

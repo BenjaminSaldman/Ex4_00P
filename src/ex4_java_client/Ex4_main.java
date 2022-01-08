@@ -108,6 +108,7 @@ public class Ex4_main {
                         double dist=agent.getLocation().distance(agent.target);
                         while (dist>EPS && agent.getDest()!=-1)
                         {
+                            //sleep to avoid move() calls.
                             Thread.sleep((long) (100000*dist/2)); //100000*dist/2
                             agents.update(client.getAgents());
                             agent=agents.container.get(i);
@@ -115,11 +116,6 @@ public class Ex4_main {
                             client.move();
                             moves++;
                             p.update();
-//                            if(moves>=9)
-//                            {
-//                                Thread.sleep(1000);
-//                                moves=0;
-//                            }
                         }
                         agents.container.get(i).isAllocated=false;
                         p.update();
@@ -140,6 +136,7 @@ public class Ex4_main {
             agents.update(client.getAgents());
             pokemons.update(client.getPokemons());
             size=info.get("GameServer").getAsJsonObject().get("agents").getAsInt();
+            //Updating new pokemon to each agent.
             for(int i=0;i<pokemons.p.size()&&size>0;i++,size--)
             {
                 Pokemon po = pokemons.getMax();

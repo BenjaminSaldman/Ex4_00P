@@ -8,6 +8,9 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * This class represent an agent container.
+ */
 public class AgentContainer {
      ArrayList<Agent> container;
 
@@ -18,6 +21,12 @@ public class AgentContainer {
     {
         return container.size();
     }
+
+    /**
+     *
+     * @param json
+     * sets the container with the server agent data.
+     */
     public void update(String json) {
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
         JsonArray agents = (JsonArray) obj.get("Agents");
@@ -51,6 +60,11 @@ public class AgentContainer {
             }
         }
     }
+
+    /**
+     *
+     * @return true if there there is an agent that not finished his travel, else false.
+     */
     public boolean isRun()
     {
         if(container.size()>1)

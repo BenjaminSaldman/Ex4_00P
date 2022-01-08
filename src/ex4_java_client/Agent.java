@@ -3,6 +3,18 @@ package ex4_java_client;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * This class represent an agent.
+ * id: agent's id.
+ * value: agent's score.
+ * src: agent's source node.
+ * dest: agent's destination node.
+ * speed: agent's speed.
+ * location: agent's current location.
+ * path: agent's node path.
+ * isAllocated: true if the agent is allocated to some pokemon, else false.
+ * target: pokemon's location.
+ */
 public class Agent {
     private int id;
     private double value;

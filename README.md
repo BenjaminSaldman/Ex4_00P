@@ -10,6 +10,7 @@ This project is about displaying a directed weighted graph and creating a "Pokem
 #### Information about the classes,hierarchy, design and fields can be found here: https://github.com/TomKoltunov/Ex4_00P/wiki/Classes.
 #### Information about test classes can be found here: https://github.com/TomKoltunov/Ex4_00P/wiki/Tests.
 #### General information about the project can be found here: https://github.com/TomKoltunov/Ex4_00P/wiki/About.
+#### Latest release: V_1.0
 
 ![image](https://user-images.githubusercontent.com/93070344/148648687-d5932b61-93ed-45d7-8dd3-180da29528cb.png)
 
